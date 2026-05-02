@@ -34,6 +34,8 @@ surface.flush()
 
 ## Build
 
+### Legacy Graphite/WebGPU build
+
 Requires: git, Python 3, CMake, Ninja, ~20 min on M-series Mac.
 
 ```bash
@@ -46,6 +48,30 @@ Set `SKIA_DIR` to reuse an existing Skia checkout:
 
 ```bash
 SKIA_DIR=~/skia ./build.sh
+```
+
+### Zero-copy build from `blendduck/skia`
+
+When your Skia checkout already contains the newer zero-copy WebGPU work from
+[`blendduck/skia`](https://github.com/blendduck/skia), use:
+
+```bash
+./build-zerocopy.sh
+```
+
+Defaults:
+
+- `SKIA_DIR=/Users/admin/workspace/github/skia`
+- output: `out/zerocopy/canvaskit.js` + `out/zerocopy/canvaskit.wasm`
+
+This path intentionally does **not** re-apply the legacy patch set. It treats
+the Skia checkout as the source of truth and only packages the generated
+CanvasKit runtime.
+
+To copy the built runtime into the local `muxa` studio tree:
+
+```bash
+./copy-to-muxa.sh
 ```
 
 ## What's patched
